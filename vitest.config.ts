@@ -11,10 +11,13 @@ export default defineConfig({
       include: ['packages/promptproof/src/**/*.ts'],
       exclude: [
         'packages/promptproof/src/**/*.d.ts',
-        'packages/promptproof/src/cli/**',
+        // Thin process-level wiring (argv parsing, dispatch, top-level
+        // catch) — covered by manual/E2E verification, not unit tests.
+        'packages/promptproof/src/cli/index.ts',
         // Type-only modules (interfaces, no runtime code) — nothing to cover.
         'packages/promptproof/src/core/types.ts',
         'packages/promptproof/src/core/results.ts',
+        'packages/promptproof/src/persistence/types.ts',
       ],
       thresholds: {
         statements: 90,

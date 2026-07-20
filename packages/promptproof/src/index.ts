@@ -62,3 +62,10 @@ export type {
   LlmJudgeOptions,
   SemanticSimilarityOptions,
 } from './graders/index.js';
+
+// SQLite persistence lives under the `promptproof/persistence` subpath
+// (see package.json `exports`), not here — it depends on the native
+// `better-sqlite3` module, which browser-safe consumers (e.g. the
+// dashboard) must never be forced to load just by importing `promptproof`.
+export { defineConfig } from './config.js';
+export type { PromptProofConfig } from './config.js';

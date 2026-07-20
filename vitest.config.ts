@@ -9,7 +9,19 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'html', 'lcov'],
       include: ['packages/promptproof/src/**/*.ts'],
-      exclude: ['packages/promptproof/src/**/*.d.ts', 'packages/promptproof/src/cli/**'],
+      exclude: [
+        'packages/promptproof/src/**/*.d.ts',
+        'packages/promptproof/src/cli/**',
+        // Type-only modules (interfaces, no runtime code) — nothing to cover.
+        'packages/promptproof/src/core/types.ts',
+        'packages/promptproof/src/core/results.ts',
+      ],
+      thresholds: {
+        statements: 90,
+        branches: 85,
+        functions: 90,
+        lines: 90,
+      },
     },
   },
 });

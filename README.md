@@ -22,12 +22,12 @@ hallucinations increase, latency regresses, or cost creeps up.
 
 This is a monorepo:
 
-| Package                                | Description                                            |
-| --------------------------------------- | -------------------------------------------------------- |
+| Package                                          | Description                                           |
+| ------------------------------------------------ | ----------------------------------------------------- |
 | [`packages/promptproof`](./packages/promptproof) | Core library + CLI, published to npm as `promptproof` |
-| [`packages/dashboard`](./packages/dashboard)     | React + Vite demo dashboard (deployed to Vercel)       |
+| [`packages/dashboard`](./packages/dashboard)     | React + Vite demo dashboard (deployed to Vercel)      |
 | [`action`](./action)                             | GitHub Action for CI regression gating                |
-| [`examples`](./examples)                         | Example suites, including one evaluating ClauseLens    |
+| [`examples`](./examples)                         | Example suites, including one evaluating ClauseLens   |
 
 ## Quickstart
 

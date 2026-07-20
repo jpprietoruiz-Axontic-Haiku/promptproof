@@ -16,3 +16,4 @@ promptproof.db-journal
 # regression baseline the PR workflow compares against. Only ignore other
 # transient run artifacts that might land in this directory.
 .promptproof/current.json
+.claude/

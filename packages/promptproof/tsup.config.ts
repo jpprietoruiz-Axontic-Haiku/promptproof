@@ -1,3 +1,4 @@
+import { chmodSync } from 'node:fs';
 import { defineConfig } from 'tsup';
 
 export default defineConfig([
@@ -34,5 +35,12 @@ export default defineConfig([
     target: 'node18',
     outDir: 'dist',
     banner: { js: '#!/usr/bin/env node' },
+    // `npm ci` links node_modules/.bin/promptproof before this build ever
+    // runs, so it can't chmod a file that doesn't exist yet — do it
+    // ourselves, or `npx promptproof` fails on POSIX CI runners with
+    // "not found" even though the symlink and the file are both there.
+    onSuccess: async () => {
+      chmodSync('dist/cli/index.js', 0o755);
+    },
   },
 ]);

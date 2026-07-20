@@ -3,8 +3,8 @@
 > Eval toolkit for LLM apps: measure faithfulness, hallucination rate, latency and cost
 > between versions, and gate CI on regressions.
 
-[![CI](https://github.com/jpprieto/promptproof/actions/workflows/ci.yml/badge.svg)](https://github.com/jpprieto/promptproof/actions/workflows/ci.yml)
-[![PromptProof PR Check](https://github.com/jpprieto/promptproof/actions/workflows/promptproof-pr.yml/badge.svg)](https://github.com/jpprieto/promptproof/actions/workflows/promptproof-pr.yml)
+[![CI](https://github.com/jpprietoruiz-Axontic-Haiku/promptproof/actions/workflows/ci.yml/badge.svg)](https://github.com/jpprietoruiz-Axontic-Haiku/promptproof/actions/workflows/ci.yml)
+[![PromptProof PR Check](https://github.com/jpprietoruiz-Axontic-Haiku/promptproof/actions/workflows/promptproof-pr.yml/badge.svg)](https://github.com/jpprietoruiz-Axontic-Haiku/promptproof/actions/workflows/promptproof-pr.yml)
 [![npm version](https://img.shields.io/npm/v/promptproof.svg)](https://www.npmjs.com/package/promptproof)
 [![license](https://img.shields.io/npm/l/promptproof.svg)](./LICENSE)
 
@@ -165,7 +165,7 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - uses: jpprieto/promptproof/action@v0.1.0
+      - uses: jpprietoruiz-Axontic-Haiku/promptproof/action@v0.1.0
         with:
           config: promptproof.config.ts
           baseline: .promptproof/baseline.json
@@ -186,7 +186,7 @@ no backend, no environment variables, deployable to Vercel as-is. It plots pass 
 latency, and cost per run across versions for the suites in
 [`packages/dashboard/src/data/example-runs.ts`](./packages/dashboard/src/data/example-runs.ts),
 including one modeling [`examples/clauselens-suite`](./examples/clauselens-suite) — a
-generic stand-in for evaluating [ClauseLens](https://github.com/jpprieto), a separate
+generic stand-in for evaluating [ClauseLens](https://github.com/jpprietoruiz-Axontic-Haiku), a separate
 contract-analysis project.
 
 ```bash

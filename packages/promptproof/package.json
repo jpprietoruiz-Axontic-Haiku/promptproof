@@ -17,11 +17,11 @@
   "author": "Juan Prieto",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jpprieto/promptproof.git",
+    "url": "git+https://github.com/jpprietoruiz-Axontic-Haiku/promptproof.git",
     "directory": "packages/promptproof"
   },
-  "homepage": "https://github.com/jpprieto/promptproof#readme",
-  "bugs": "https://github.com/jpprieto/promptproof/issues",
+  "homepage": "https://github.com/jpprietoruiz-Axontic-Haiku/promptproof#readme",
+  "bugs": "https://github.com/jpprietoruiz-Axontic-Haiku/promptproof/issues",
   "engines": {
     "node": ">=18.18.0"
   },

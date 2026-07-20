@@ -2,7 +2,7 @@ import { defineConfig, defineSuite, jsonSchema, latencyUnder } from 'promptproof
 
 /**
  * Illustrative suite for ClauseLens, a contract-clause analysis assistant
- * (see https://github.com/jpprieto — a separate project). This is a
+ * (see https://github.com/jpprietoruiz-Axontic-Haiku — a separate project). This is a
  * self-contained, generic stand-in for the real evaluation: it grades a
  * mock risk-classification adapter, not ClauseLens' actual model or
  * prompts, so the suite stays runnable without API keys or private code.

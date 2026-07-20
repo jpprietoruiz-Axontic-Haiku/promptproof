@@ -1,8 +1,8 @@
 {
   "suiteName": "selfcheck-intent-classifier",
-  "startedAt": "2026-07-20T05:39:10.001Z",
-  "finishedAt": "2026-07-20T05:39:10.001Z",
-  "durationMs": 0,
+  "startedAt": "2026-07-20T05:50:41.260Z",
+  "finishedAt": "2026-07-20T05:50:41.261Z",
+  "durationMs": 1,
   "cases": [
     {
       "case": {
@@ -10,7 +10,7 @@
         "input": "Hello there!"
       },
       "output": "{\"intent\":\"greeting\"}",
-      "latencyMs": 0.22409599999997454,
+      "latencyMs": 0.2039609999999925,
       "graderResults": [
         {
           "grader": "jsonSchema",
@@ -31,7 +31,7 @@
         "input": "I want a refund please"
       },
       "output": "{\"intent\":\"refund_request\"}",
-      "latencyMs": 0.22614099999998416,
+      "latencyMs": 0.2068670000000452,
       "graderResults": [
         {
           "grader": "jsonSchema",
@@ -52,7 +52,7 @@
         "input": "What is the weather today?"
       },
       "output": "{\"intent\":\"unknown\"}",
-      "latencyMs": 0.19142599999997856,
+      "latencyMs": 0.1786040000000071,
       "graderResults": [
         {
           "grader": "jsonSchema",
@@ -73,8 +73,8 @@
     "passed": 3,
     "failed": 0,
     "passRate": 1,
-    "meanLatencyMs": 0.21388766666664574,
-    "p95LatencyMs": 0.22614099999998416,
+    "meanLatencyMs": 0.19647733333334827,
+    "p95LatencyMs": 0.2068670000000452,
     "byGrader": [
       {
         "grader": "jsonSchema",

@@ -23,19 +23,18 @@ jobs:
 
       - name: DEBUG bin resolution
         run: |
-          pwd
-          echo "--- node_modules/.bin/promptproof* ---"
-          ls -la node_modules/.bin/ | grep -i prompt || echo "no match"
-          echo "--- readlink ---"
-          readlink -f node_modules/.bin/promptproof || echo "readlink failed"
-          echo "--- file ---"
-          file node_modules/.bin/promptproof || echo "file failed"
-          echo "--- head of bin script ---"
-          head -c 200 node_modules/.bin/promptproof || echo "head failed"
-          echo "--- npm exec dry ---"
-          npx --no-install promptproof --version || echo "npx exit=$?"
-          echo "--- direct node invocation ---"
-          node node_modules/.bin/promptproof --version || echo "node exit=$?"
+          echo "--- npm --version ---"
+          npm --version
+          echo "--- node_modules/promptproof (package symlink) ---"
+          ls -la node_modules/ | grep -i prompt || echo "no match"
+          echo "--- node_modules/.bin (full listing) ---"
+          ls -la node_modules/.bin/ | head -30
+          echo "--- npm ls --workspaces --depth=0 ---"
+          npm ls --workspaces --depth=0 || echo "npm ls exit=$?"
+          echo "--- root package.json workspaces field ---"
+          node -e "console.log(require('./package.json').workspaces)"
+          echo "--- packages/promptproof/package.json bin field ---"
+          node -e "console.log(require('./packages/promptproof/package.json').bin)"
 
       - name: Run selfcheck suite
         id: promptproof

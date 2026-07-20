@@ -1,0 +1,58 @@
+{
+  "name": "promptproof",
+  "version": "0.1.0",
+  "description": "Eval toolkit for LLM apps: measure faithfulness, hallucination, latency and cost between versions, and gate CI on regressions.",
+  "license": "MIT",
+  "type": "module",
+  "keywords": [
+    "llm",
+    "evaluation",
+    "eval",
+    "testing",
+    "ai",
+    "prompt-engineering",
+    "regression-testing",
+    "ci"
+  ],
+  "author": "Juan Prieto",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jpprieto/promptproof.git",
+    "directory": "packages/promptproof"
+  },
+  "homepage": "https://github.com/jpprieto/promptproof#readme",
+  "bugs": "https://github.com/jpprieto/promptproof/issues",
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "bin": {
+    "promptproof": "./dist/cli/index.js"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist *.tsbuildinfo"
+  },
+  "devDependencies": {
+    "rimraf": "^6.0.1",
+    "tsup": "^8.3.0",
+    "typescript": "^5.6.3"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "@promptproof/dashboard",
+  "private": true,
+  "version": "0.1.0",
+  "description": "PromptProof demo dashboard: time series of eval metrics per version.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.2",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.9"
+  }
+}

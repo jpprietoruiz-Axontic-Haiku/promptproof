@@ -1,0 +1,7 @@
+dist/
+build/
+coverage/
+node_modules/
+*.md.snap
+pnpm-lock.yaml
+package-lock.json

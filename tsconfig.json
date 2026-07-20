@@ -1,0 +1,7 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/promptproof" },
+    { "path": "./packages/dashboard" }
+  ]
+}

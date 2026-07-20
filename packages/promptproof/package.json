@@ -50,6 +50,9 @@
     "typecheck": "tsc --noEmit",
     "clean": "rimraf dist *.tsbuildinfo"
   },
+  "dependencies": {
+    "ajv": "^8.17.1"
+  },
   "peerDependencies": {
     "@anthropic-ai/sdk": "^0.27.0",
     "openai": "^4.60.0"

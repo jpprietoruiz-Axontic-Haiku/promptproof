@@ -45,3 +45,20 @@ export type {
   PromptInput,
   TokenPricing,
 } from './adapters/index.js';
+
+export {
+  costUnder,
+  exactMatch,
+  jsonSchema,
+  latencyUnder,
+  llmJudge,
+  semanticSimilarity,
+} from './graders/index.js';
+export type {
+  CostUnderOptions,
+  ExactMatchOptions,
+  JsonSchemaOptions,
+  LatencyUnderOptions,
+  LlmJudgeOptions,
+  SemanticSimilarityOptions,
+} from './graders/index.js';

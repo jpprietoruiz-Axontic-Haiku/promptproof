@@ -21,6 +21,11 @@ jobs:
 
       - run: npm ci
       - run: npm run build --workspace packages/promptproof
+      # `npm ci` links workspace bins before dist/cli/index.js exists, so it
+      # silently skips node_modules/.bin/promptproof (the bin target must
+      # exist at link time). Re-running install (fast — the lockfile is
+      # already satisfied, nothing to download) re-evaluates and creates it.
+      - run: npm install --no-audit --no-fund
 
       - name: Run selfcheck suite vs baseline
         uses: ./action

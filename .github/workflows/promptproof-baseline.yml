@@ -20,21 +20,11 @@ jobs:
 
       - run: npm ci
       - run: npm run build --workspace packages/promptproof
-
-      - name: DEBUG bin resolution
-        run: |
-          echo "--- npm --version ---"
-          npm --version
-          echo "--- node_modules/promptproof (package symlink) ---"
-          ls -la node_modules/ | grep -i prompt || echo "no match"
-          echo "--- node_modules/.bin (full listing) ---"
-          ls -la node_modules/.bin/ | head -30
-          echo "--- npm ls --workspaces --depth=0 ---"
-          npm ls --workspaces --depth=0 || echo "npm ls exit=$?"
-          echo "--- root package.json workspaces field ---"
-          node -e "console.log(require('./package.json').workspaces)"
-          echo "--- packages/promptproof/package.json bin field ---"
-          node -e "console.log(require('./packages/promptproof/package.json').bin)"
+      # `npm ci` links workspace bins before dist/cli/index.js exists, so it
+      # silently skips node_modules/.bin/promptproof (the bin target must
+      # exist at link time). Re-running install (fast — the lockfile is
+      # already satisfied, nothing to download) re-evaluates and creates it.
+      - run: npm install --no-audit --no-fund
 
       - name: Run selfcheck suite
         id: promptproof

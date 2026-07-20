@@ -12,4 +12,7 @@ Thumbs.db
 .vercel/
 promptproof.db
 promptproof.db-journal
-.promptproof/
+# .promptproof/baseline.json is intentionally tracked — it's the committed
+# regression baseline the PR workflow compares against. Only ignore other
+# transient run artifacts that might land in this directory.
+.promptproof/current.json

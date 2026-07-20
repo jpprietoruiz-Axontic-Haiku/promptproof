@@ -1,0 +1,59 @@
+name: 'PromptProof'
+description: 'Run a PromptProof eval suite and fail the check on regression vs a baseline.'
+author: 'Juan Prieto'
+
+branding:
+  icon: 'check-circle'
+  color: 'purple'
+
+inputs:
+  config:
+    description: 'Path to the promptproof config file.'
+    required: false
+    default: 'promptproof.config.ts'
+  baseline:
+    description: >
+      Path to the baseline run JSON to compare against. If the file does not
+      exist (e.g. the very first run), the regression check is skipped.
+    required: false
+    default: '.promptproof/baseline.json'
+  working-directory:
+    description: 'Directory to run the suite from.'
+    required: false
+    default: '.'
+
+outputs:
+  passed:
+    description: 'Whether the suite passed its own thresholds and showed no regression ("true"/"false").'
+    value: ${{ steps.run.outputs.passed }}
+  report-path:
+    description: 'Path to the JSON report written by this run.'
+    value: ${{ steps.run.outputs.report-path }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Run PromptProof suite
+      id: run
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        REPORT_PATH="${RUNNER_TEMP}/promptproof-report.json"
+        echo "report-path=${REPORT_PATH}" >> "$GITHUB_OUTPUT"
+
+        set +e
+        npx --no-install promptproof run \
+          --config "${{ inputs.config }}" \
+          --baseline "${{ inputs.baseline }}" \
+          --json "${REPORT_PATH}" \
+          --no-save
+        EXIT_CODE=$?
+        set -e
+
+        if [ "$EXIT_CODE" -eq 0 ]; then
+          echo "passed=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "passed=false" >> "$GITHUB_OUTPUT"
+        fi
+
+        exit "$EXIT_CODE"

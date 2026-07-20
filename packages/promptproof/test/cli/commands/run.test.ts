@@ -26,6 +26,34 @@ const FAILING_CONFIG = PASSING_CONFIG.replace(
   "input: 'hi', expected: 'bye'",
 );
 
+// Same failing suite, but with its own threshold relaxed to `passRate: 0` so
+// the suite's own gate always passes — isolating the --baseline regression
+// check from the suite's own threshold check in tests below.
+const LENIENT_FAILING_CONFIG = FAILING_CONFIG.replace(
+  'graders: [{',
+  'thresholds: { passRate: 0 },\n    graders: [{',
+);
+
+function makeBaselineResult(passRate: number): SuiteRunResult {
+  return {
+    suiteName: 'greeting-suite',
+    startedAt: '2026-01-01T00:00:00.000Z',
+    finishedAt: '2026-01-01T00:00:01.000Z',
+    durationMs: 10,
+    cases: [],
+    aggregates: {
+      total: 1,
+      passed: passRate,
+      failed: 1 - passRate,
+      passRate,
+      meanLatencyMs: 1,
+      p95LatencyMs: 1,
+      byGrader: [],
+    },
+    thresholdResult: { pass: true, failures: [] },
+  };
+}
+
 let dir: string;
 
 beforeEach(async () => {
@@ -95,6 +123,56 @@ describe('runCommand', () => {
     } finally {
       store.close();
     }
+  });
+
+  it('skips the regression check and prints a notice when the baseline file is missing', async () => {
+    await writeFile(join(dir, 'promptproof.config.mjs'), PASSING_CONFIG, 'utf8');
+    const printed: string[] = [];
+
+    const exitCode = await runCommand(['--no-save', '--baseline', 'baseline.json'], {
+      cwd: dir,
+      print: (m) => printed.push(m),
+    });
+
+    expect(exitCode).toBe(0);
+    expect(printed.join('\n')).toContain('No baseline found');
+  });
+
+  it('passes the regression check when nothing regressed vs the baseline', async () => {
+    await writeFile(join(dir, 'promptproof.config.mjs'), PASSING_CONFIG, 'utf8');
+    await writeFile(
+      join(dir, 'baseline.json'),
+      JSON.stringify(makeBaselineResult(1)),
+      'utf8',
+    );
+    const printed: string[] = [];
+
+    const exitCode = await runCommand(['--no-save', '--baseline', 'baseline.json'], {
+      cwd: dir,
+      print: (m) => printed.push(m),
+    });
+
+    expect(exitCode).toBe(0);
+    expect(printed.join('\n')).toContain('No regression vs baseline');
+  });
+
+  it("fails on a regression vs baseline even when the suite's own threshold passes", async () => {
+    await writeFile(join(dir, 'promptproof.config.mjs'), LENIENT_FAILING_CONFIG, 'utf8');
+    await writeFile(
+      join(dir, 'baseline.json'),
+      JSON.stringify(makeBaselineResult(1)),
+      'utf8',
+    );
+    const printed: string[] = [];
+
+    const exitCode = await runCommand(['--no-save', '--baseline', 'baseline.json'], {
+      cwd: dir,
+      print: (m) => printed.push(m),
+    });
+
+    expect(exitCode).toBe(1);
+    expect(printed.join('\n')).toContain('Regression vs baseline');
+    expect(printed.join('\n')).toContain('Pass rate dropped');
   });
 
   it('rejects a non-positive --concurrency', async () => {

@@ -1,8 +1,12 @@
-import { writeFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
+import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { parseArgs } from 'node:util';
-import { run as runSuite } from '../../core/run.js';
+import { compareRuns } from '../../core/compare.js';
+import type { RegressionReport } from '../../core/compare.js';
 import { PromptProofError } from '../../core/errors.js';
+import type { SuiteRunResult } from '../../core/results.js';
+import { run as runSuite } from '../../core/run.js';
 import { SqliteRunStore } from '../../persistence/sqlite-store.js';
 import { loadConfig } from '../config-loader.js';
 import { formatReport } from '../report.js';
@@ -23,9 +27,11 @@ function parseConcurrency(raw: string | undefined): number | undefined {
 
 /**
  * Implements `promptproof run`: loads the config, executes the suite, prints
- * a console report, optionally exports JSON, and persists the run to SQLite.
+ * a console report, optionally compares against a baseline run and exports
+ * JSON, and persists the run to SQLite.
  *
- * @returns The process exit code (`0` when thresholds pass, `1` otherwise).
+ * @returns The process exit code — `0` only when the suite's own thresholds
+ * pass *and* (if a baseline was given) no configured metric regressed.
  */
 export async function runCommand(
   argv: string[],
@@ -41,6 +47,7 @@ export async function runCommand(
       config: { type: 'string' },
       json: { type: 'string' },
       db: { type: 'string' },
+      baseline: { type: 'string' },
       concurrency: { type: 'string' },
       'no-save': { type: 'boolean', default: false },
     },
@@ -55,7 +62,20 @@ export async function runCommand(
     ...(concurrency !== undefined ? { concurrency } : {}),
   });
 
-  print(formatReport(result));
+  let regressed = false;
+  let regressionReport: RegressionReport | undefined;
+  if (values.baseline) {
+    const baselinePath = resolve(cwd, values.baseline);
+    if (existsSync(baselinePath)) {
+      const baseline = JSON.parse(await readFile(baselinePath, 'utf8')) as SuiteRunResult;
+      regressionReport = compareRuns(baseline, result, config.regression);
+      regressed = regressionReport.regressed;
+    } else {
+      print(`No baseline found at ${baselinePath} — skipping regression check.\n`);
+    }
+  }
+
+  print(formatReport(result, regressionReport));
 
   if (values.json) {
     const jsonPath = resolve(cwd, values.json);
@@ -77,5 +97,5 @@ export async function runCommand(
     }
   }
 
-  return result.thresholdResult.pass ? 0 : 1;
+  return result.thresholdResult.pass && !regressed ? 0 : 1;
 }

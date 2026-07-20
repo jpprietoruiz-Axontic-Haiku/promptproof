@@ -1,0 +1,101 @@
+{
+  "suiteName": "selfcheck-intent-classifier",
+  "startedAt": "2026-07-20T03:29:54.178Z",
+  "finishedAt": "2026-07-20T03:29:54.181Z",
+  "durationMs": 3,
+  "cases": [
+    {
+      "case": {
+        "id": "greeting",
+        "input": "Hello there!"
+      },
+      "output": "{\"intent\":\"greeting\"}",
+      "latencyMs": 0.9716000000000804,
+      "graderResults": [
+        {
+          "grader": "jsonSchema",
+          "pass": true,
+          "score": 1
+        },
+        {
+          "grader": "latencyUnder",
+          "pass": true,
+          "score": 1
+        }
+      ],
+      "pass": true
+    },
+    {
+      "case": {
+        "id": "refund",
+        "input": "I want a refund please"
+      },
+      "output": "{\"intent\":\"refund_request\"}",
+      "latencyMs": 1.0705000000000382,
+      "graderResults": [
+        {
+          "grader": "jsonSchema",
+          "pass": true,
+          "score": 1
+        },
+        {
+          "grader": "latencyUnder",
+          "pass": true,
+          "score": 1
+        }
+      ],
+      "pass": true
+    },
+    {
+      "case": {
+        "id": "unrelated",
+        "input": "What is the weather today?"
+      },
+      "output": "{\"intent\":\"unknown\"}",
+      "latencyMs": 0.8724000000001979,
+      "graderResults": [
+        {
+          "grader": "jsonSchema",
+          "pass": true,
+          "score": 1
+        },
+        {
+          "grader": "latencyUnder",
+          "pass": true,
+          "score": 1
+        }
+      ],
+      "pass": true
+    }
+  ],
+  "aggregates": {
+    "total": 3,
+    "passed": 3,
+    "failed": 0,
+    "passRate": 1,
+    "meanLatencyMs": 0.9715000000001055,
+    "p95LatencyMs": 1.0705000000000382,
+    "byGrader": [
+      {
+        "grader": "jsonSchema",
+        "total": 3,
+        "passed": 3,
+        "failed": 0,
+        "passRate": 1,
+        "meanScore": 1
+      },
+      {
+        "grader": "latencyUnder",
+        "total": 3,
+        "passed": 3,
+        "failed": 0,
+        "passRate": 1,
+        "meanScore": 1
+      }
+    ]
+  },
+  "thresholdResult": {
+    "pass": true,
+    "failures": []
+  }
+}

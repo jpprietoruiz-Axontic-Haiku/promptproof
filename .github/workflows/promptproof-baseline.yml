@@ -1,0 +1,39 @@
+name: PromptProof Baseline
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  update-baseline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build --workspace packages/promptproof
+
+      - name: Run selfcheck suite
+        id: promptproof
+        uses: ./action
+        with:
+          working-directory: examples/selfcheck-suite
+          config: promptproof.config.ts
+          baseline: ../../.promptproof/baseline.json
+
+      - name: Update committed baseline
+        run: |
+          cp "${{ steps.promptproof.outputs.report-path }}" .promptproof/baseline.json
+          git config user.name "promptproof-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add .promptproof/baseline.json
+          git diff --cached --quiet || git commit -m "chore: update promptproof baseline [skip ci]"
+          git push

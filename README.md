@@ -31,7 +31,61 @@ This is a monorepo:
 
 ## Quickstart
 
-_Coming soon — landing with the CLI milestone._
+```ts
+// promptproof.config.ts
+import { defineConfig, defineSuite, exactMatch, openaiAdapter } from 'promptproof';
+
+const suite = defineSuite({
+  name: 'support-bot',
+  cases: [{ id: 'refund', input: 'I want a refund', expected: 'refund' }],
+  graders: [exactMatch()],
+  thresholds: { passRate: 0.95 },
+});
+
+export default defineConfig({
+  suite,
+  adapter: openaiAdapter({ model: 'gpt-4o-mini' }),
+});
+```
+
+```bash
+npx promptproof run
+```
+
+## GitHub Action
+
+Gate every PR on regressions vs a committed baseline. The action runs
+`promptproof run --baseline <path>` and fails the check if the suite's own
+thresholds fail or if any configured metric regressed vs the baseline.
+
+```yaml
+# .github/workflows/promptproof.yml
+name: PromptProof
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - uses: jpprieto/promptproof/action@v0.1.0
+        with:
+          config: promptproof.config.ts
+          baseline: .promptproof/baseline.json
+```
+
+Keep `.promptproof/baseline.json` up to date with a second workflow that runs
+on every push to `main` and commits the fresh result — see
+[`.github/workflows/promptproof-baseline.yml`](./.github/workflows/promptproof-baseline.yml)
+in this repo for a working example (it also doubles as this project's own
+self-check, via [`examples/selfcheck-suite`](./examples/selfcheck-suite)).
 
 ## Development
 

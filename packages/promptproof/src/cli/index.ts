@@ -15,6 +15,7 @@ function printUsage(): void {
       'Options for `run`:',
       '  --config <path>     Config file path (default: promptproof.config.{ts,mts,js,mjs,cjs})',
       '  --json <path>       Write the full run result as JSON to <path>',
+      '  --baseline <path>   Compare against a prior run (a --json file) and fail on regression',
       '  --db <path>         SQLite database path (default: $PROMPTPROOF_DB_PATH or ./promptproof.db)',
       '  --no-save           Skip saving the run to SQLite',
       '  --concurrency <n>   Override the max concurrent adapter calls',

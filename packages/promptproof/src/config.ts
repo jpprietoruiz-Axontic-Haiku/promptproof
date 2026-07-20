@@ -1,3 +1,4 @@
+import type { RegressionThresholds } from './core/compare.js';
 import type { Adapter, Suite } from './core/types.js';
 
 /**
@@ -10,6 +11,8 @@ export interface PromptProofConfig<TInput = unknown, TExpected = unknown> {
   readonly adapter: Adapter<TInput, TExpected>;
   /** Max cases evaluated concurrently. Defaults to `5`. */
   readonly concurrency?: number;
+  /** What counts as a regression when `promptproof run --baseline <path>` compares against a prior run. */
+  readonly regression?: RegressionThresholds;
 }
 
 /**

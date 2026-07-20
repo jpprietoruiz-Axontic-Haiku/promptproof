@@ -37,6 +37,14 @@ export type {
 
 export type { RunOptions } from './core/run.js';
 
+export { compareRuns } from './core/compare.js';
+export type {
+  GraderRegressionThreshold,
+  RegressionCheck,
+  RegressionReport,
+  RegressionThresholds,
+} from './core/compare.js';
+
 export { anthropicAdapter, openaiAdapter, toMessages } from './adapters/index.js';
 export type {
   AnthropicAdapterOptions,

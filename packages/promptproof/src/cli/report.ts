@@ -1,4 +1,5 @@
 import pc from 'picocolors';
+import type { RegressionReport } from '../core/compare.js';
 import type { SuiteRunResult } from '../core/results.js';
 
 function formatPercent(value: number): string {
@@ -9,8 +10,15 @@ function formatMs(value: number): string {
   return `${value.toFixed(0)}ms`;
 }
 
-/** Renders a {@link SuiteRunResult} as a human-readable, colorized console report. */
-export function formatReport(result: SuiteRunResult): string {
+/**
+ * Renders a {@link SuiteRunResult} as a human-readable, colorized console
+ * report. Pass `regressionReport` (from {@link compareRuns}) to also render
+ * a "vs baseline" section.
+ */
+export function formatReport(
+  result: SuiteRunResult,
+  regressionReport?: RegressionReport,
+): string {
   const lines: string[] = [];
 
   const title = result.suiteVersion
@@ -73,6 +81,18 @@ export function formatReport(result: SuiteRunResult): string {
     lines.push(pc.bold(pc.red('✗ Thresholds failed')));
     for (const failure of result.thresholdResult.failures) {
       lines.push(pc.red(`  - ${failure.message}`));
+    }
+  }
+
+  if (regressionReport) {
+    lines.push('');
+    if (regressionReport.regressed) {
+      lines.push(pc.bold(pc.red('✗ Regression vs baseline')));
+      for (const check of regressionReport.checks.filter((c) => c.regressed)) {
+        lines.push(pc.red(`  - ${check.message}`));
+      }
+    } else {
+      lines.push(pc.bold(pc.green('✓ No regression vs baseline')));
     }
   }
 

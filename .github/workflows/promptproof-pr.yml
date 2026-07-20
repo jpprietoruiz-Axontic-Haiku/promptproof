@@ -27,4 +27,4 @@ jobs:
         with:
           working-directory: examples/selfcheck-suite
           config: promptproof.config.ts
-          baseline: ../../.promptproof/baseline.json
+          baseline: .promptproof/baseline.json

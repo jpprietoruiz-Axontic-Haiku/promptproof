@@ -18,7 +18,7 @@ inputs:
     required: false
     default: '.promptproof/baseline.json'
   working-directory:
-    description: 'Directory to run the suite from.'
+    description: 'Directory containing the config file, relative to the repo root.'
     required: false
     default: '.'
 
@@ -36,14 +36,20 @@ runs:
     - name: Run PromptProof suite
       id: run
       shell: bash
-      working-directory: ${{ inputs.working-directory }}
+      # Deliberately NOT setting working-directory here: `npx` resolves a
+      # local binary by walking up from the current directory looking for a
+      # node_modules/.bin it belongs to, and that walk isn't guaranteed to
+      # cross into a parent that isn't itself an npm project root (e.g. a
+      # bare examples/ subfolder with no package.json). Running from the
+      # repo root — where node_modules actually lives — sidesteps that
+      # entirely; `--config` carries the working-directory prefix instead.
       run: |
         REPORT_PATH="${RUNNER_TEMP}/promptproof-report.json"
         echo "report-path=${REPORT_PATH}" >> "$GITHUB_OUTPUT"
 
         set +e
         npx --no-install promptproof run \
-          --config "${{ inputs.config }}" \
+          --config "${{ inputs.working-directory }}/${{ inputs.config }}" \
           --baseline "${{ inputs.baseline }}" \
           --json "${REPORT_PATH}" \
           --no-save

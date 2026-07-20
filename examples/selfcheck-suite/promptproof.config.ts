@@ -45,3 +45,5 @@ export default defineConfig({
   suite,
   adapter: (input: string) => ({ output: classify(input) }),
 });
+
+// trivial change to trigger the PromptProof PR Check workflow for verification

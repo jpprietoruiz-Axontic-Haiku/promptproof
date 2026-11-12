@@ -1,5 +1,7 @@
 # PromptProof
 
+> **Hiring manager / technical reviewer?** Start with the [2-minute technical overview](REVIEWER_GUIDE.md) for architecture, verification points and limitations.
+
 > Eval toolkit for LLM apps: measure faithfulness, hallucination rate, latency and cost
 > between versions, and gate CI on regressions.
 

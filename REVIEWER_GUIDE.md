@@ -23,6 +23,6 @@
 
 ## Scope and limitations
 
-Evaluation metrics are **proxies**, not guarantees that an LLM is factually correct or safe. LLM-as-judge assessments can be biased; meaningful results require carefully curated datasets, thresholds and independent validation. The bundled dashboard uses example data. Check [CI runs](../../actions/workflows/ci.yml) before assuming the latest revision has passed.
+Evaluation metrics are **proxies**, not guarantees that an LLM is factually correct or safe. LLM-as-judge assessments can be biased; meaningful results require carefully curated datasets, thresholds and independent validation. The bundled dashboard uses example data. Check [CI runs](https://github.com/jpprietoruiz-Axontic-Haiku/promptproof/actions/workflows/ci.yml) before assuming the latest revision has passed.
 
 **Author:** Juan Pablo Prieto, PhD · [GitHub profile](https://github.com/jpprietoruiz-Axontic-Haiku)
